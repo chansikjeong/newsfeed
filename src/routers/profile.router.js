@@ -27,12 +27,9 @@ router.get('/profile', authMiddleware, async (req, res) => {
     // 결과를 반환합니다.
     return res
       .status(200)
-      .json(
-        { message: '프로필 조회가 완료되었습니다.' },
-        { data: userProfile },
-      );
-  } catch (error) {
-    next(error);
+      .json({ message: '프로필 조회가 완료되었습니다.', data: userProfile });
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -71,7 +68,9 @@ router.patch('/profile', authMiddleware, async (req, res, next) => {
     // 업데이트 되는 데이터를 담을 객체를 생성
     const updatedData = {
       ...(nickname && { nickname }),
-      ...(password && { password: await bcrypt.hash(password, 10) }),
+      ...(password && {
+        password: await bcrypt.hash(password, parseInt(process.env.SALTNUM)),
+      }),
     };
 
     // 최종 업데이트된 유저를 선언하여 변경된 데이터를 새롭게 할당한다.
@@ -81,7 +80,9 @@ router.patch('/profile', authMiddleware, async (req, res, next) => {
     });
 
     return res.status(200).json({ message: '프로필이 수정되었습니다.' });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 });
+
+export default router;
