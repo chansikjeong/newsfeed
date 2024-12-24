@@ -41,7 +41,7 @@ router.get(
     try {
       const { postId } = req.params;
 
-      const looUpComment = await prisma.comments.findMany({
+      const lookUpComment = await prisma.comments.findMany({
         where: { postId: +postId },
         select: {
           userId: true,
@@ -49,7 +49,7 @@ router.get(
           createdAt: true,
         },
       });
-      return res.status(200).json({ looUpComment });
+      return res.status(200).json({ lookUpComment });
     } catch (err) {
       next(err);
     }
