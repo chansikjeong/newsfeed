@@ -13,7 +13,7 @@ router.post(
   async (req, res, next) => {
     try {
       const { postId } = req.params;
-      const { userId } = req.body.user;
+      const { userId } = req.user;
       const { content } = req.body;
 
       const addComment = await prisma.comments.create({

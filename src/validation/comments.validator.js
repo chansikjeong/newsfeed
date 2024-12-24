@@ -40,7 +40,7 @@ export async function checkLookUpComments(req, res, next) {
 export async function checkChangeComment(req, res, next) {
   try {
     const { postId, commentId } = req.params;
-    const { userId } = req.body.user;
+    const { userId } = req.user;
     const { content } = req.body;
 
     const postIdExist = await prisma.posts.findUnique({
