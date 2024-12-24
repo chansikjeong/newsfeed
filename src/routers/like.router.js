@@ -7,8 +7,9 @@ import bcrypt from 'bcrypt';
 const router = express.Router();
 
 /** 좋아요 꾸욱 **/
-router.post('/api/post/:postId/like', async (req, res, next) => {
-  const { postId, userId } = req.params;
+router.post('/post/:postId/like', async (req, res, next) => {
+  const userId = parseInt(req.user.id);
+  const { postId } = req.params;
   try {
     //해당 유저가 이미 이 글에 좋아요를 눌렀는지 판단
     const myLike = await prisma.like.findFirst({
@@ -26,10 +27,33 @@ router.post('/api/post/:postId/like', async (req, res, next) => {
         },
       });
     }
-    //눌렀으면 좋아요 취소? 별도로 만들까?
-    else {
+  } catch (err) {
+    next(err);
+  }
+});
+
+/** 취소 **/
+router.post('/post/:postId/like', async (req, res, next) => {
+  const userId = parseInt(req.user.id);
+  const { postId } = req.params;
+  try {
+    //해당 유저가 이미 이 글에 좋아요를 눌렀는지 판단
+    const myLike = await prisma.like.findFirst({
+      where: {
+        postId,
+        userId,
+      },
+    });
+    //눌렀으면 좋아요 데이터 삭제
+    if (myLike) {
+      await prisma.like.delete({
+        data: {
+          postId,
+          userId,
+        },
+      });
     }
-  } catch (e) {
-    next(e);
+  } catch (err) {
+    next(err);
   }
 });
