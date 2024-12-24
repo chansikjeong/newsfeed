@@ -3,6 +3,7 @@ import { prisma } from '../utils/prisma/index.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import userValid from '../validation/user.validator.js';
+import authorization from '../middlewares/authorization.js';
 
 const router = express.Router(); // express.Router()를 이용해 라우터를 생성.
 
@@ -64,7 +65,7 @@ router.post('/login', async (req, res, next) => {
       return res.status(401).json({ message: '비밀번호가 틀렸습니다.' });
     }
 
-    const token = jwt.sign({ userId: user.userId }, process.env.JWT_KEY, {
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_KEY, {
       expiresIn: '1d',
     });
 
@@ -79,7 +80,7 @@ router.post('/login', async (req, res, next) => {
 });
 
 //로그아웃 API
-router.post('/logout', (req, res) => {
+router.post('/logout', authorization, (req, res) => {
   try {
     // 쿠키에 저장된 JWT 토큰 삭제
     res.clearCookie('token');
