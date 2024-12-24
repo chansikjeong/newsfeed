@@ -2,12 +2,12 @@ import express from 'express';
 import { prisma } from '../utils/prisma/index.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-//import authrization from '../middlewares/authrization.js';
+import authorization from '../middlewares/authorization.js';
 
 const router = express.Router();
 
 /** 좋아요 꾸욱 **/
-router.post('/post/:postId/like', async (req, res, next) => {
+router.post('/post/:postId/like', authorization, async (req, res, next) => {
   const userId = parseInt(req.user.id);
   const { postId } = req.params;
   try {
@@ -28,7 +28,7 @@ router.post('/post/:postId/like', async (req, res, next) => {
 });
 
 /** 취소 **/
-router.delete('/post/:postId/like', async (req, res, next) => {
+router.delete('/post/:postId/like', authorization, async (req, res, next) => {
   const userId = parseInt(req.user.id);
   const { postId } = req.params;
   try {
