@@ -22,7 +22,7 @@ export default async function (req, res, next) {
     }
 
     // 사용자 정보를 저장
-    req.body.user = user; //body에서 읽을 거라 body라고 지정해주기
+    req.user = user; //body에서 읽을 거라 body라고 지정해주기
 
     next();
   } catch (error) {
