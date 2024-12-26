@@ -51,5 +51,100 @@ router.get('/posts/mobile', async (req, res, next) => {
     next(err);
   }
 });
+// 전설의 로직 복붙시작 pc 게시글 전체조회
+router.get('/posts/pc', async (req, res, next) => {
+  try {
+    const pcPosts = await prisma.posts.findMany({
+      where: { type: 'pc' },
+      select: {
+        title: true,
+        content: true,
+        createdAt: true,
+        type: true,
+        Users: {
+          select: {
+            nickname: true,
+          },
+        },
+        _count: {
+          select: {
+            Like: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 10,
+    });
+
+    if (pcPosts.length === 0) {
+      return res.status(404).json({ message: '게시글이 존재하지 않습니다.' });
+    }
+
+    const formattedPosts = pcPosts.map((post) => ({
+      title: post.title,
+      content: post.content,
+      createdAt: post.createdAt,
+      nickname: post.Users.nickname,
+      type: post.type,
+      likes: post._count.Like,
+    }));
+
+    return res
+      .status(200)
+      .json({ message: '게시글 조회가 완료되었습니다.', data: formattedPosts });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// 콘솔 게시글 전체조회
+router.get('/posts/console', async (req, res, next) => {
+  try {
+    const consolePosts = await prisma.posts.findMany({
+      where: { type: 'console' },
+      select: {
+        title: true,
+        content: true,
+        createdAt: true,
+        type: true,
+        Users: {
+          select: {
+            nickname: true,
+          },
+        },
+        _count: {
+          select: {
+            Like: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 10,
+    });
+
+    if (consolePosts.length === 0) {
+      return res.status(404).json({ message: '게시글이 존재하지 않습니다.' });
+    }
+
+    const formattedPosts = consolePosts.map((post) => ({
+      title: post.title,
+      content: post.content,
+      createdAt: post.createdAt,
+      nickname: post.Users.nickname,
+      type: post.type,
+      likes: post._count.Like,
+    }));
+
+    return res
+      .status(200)
+      .json({ message: '게시글 조회가 완료되었습니다.', data: formattedPosts });
+  } catch (err) {
+    next(err);
+  }
+});
 
 export default router;
