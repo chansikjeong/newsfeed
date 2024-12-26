@@ -11,6 +11,7 @@ router.get('/posts/mobile', async (req, res, next) => {
         title: true,
         content: true,
         createdAt: true,
+        type: true,
         Users: {
           select: {
             nickname: true,
@@ -38,6 +39,7 @@ router.get('/posts/mobile', async (req, res, next) => {
       content: post.content,
       createdAt: post.createdAt,
       nickname: post.Users.nickname,
+      type: post.type,
       likes: post._count.Like,
     }));
 
@@ -48,3 +50,5 @@ router.get('/posts/mobile', async (req, res, next) => {
     next(err);
   }
 });
+
+export default router;
