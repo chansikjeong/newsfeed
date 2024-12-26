@@ -101,22 +101,14 @@ export async function checkDeleteComment(req, res, next) {
 // 내 댓글 조회 검증
 export async function checkMyComment(req, res, next) {
   try {
-    const { postId } = req.params;
     const userId = req.user.id;
-
-    const postIdExist = await prisma.posts.findUnique({
-      where: { id: parseInt(postId) },
-    });
-    if (!postIdExist) throw new Error(`해당 게시글이 존재하지 않습니다.`);
 
     const commentExist = await prisma.comments.findFirst({
       where: {
         userId: parseInt(userId),
-        postId: parseInt(postId),
       },
     });
-    if (!commentExist)
-      throw new Error(`해당 게시글에 내 댓글이 존재하지 않습니다.`);
+    if (!commentExist) throw new Error(`내 댓글이 존재하지 않습니다.`);
 
     next();
   } catch (err) {

@@ -102,17 +102,15 @@ router.delete(
 
 // 내 댓글 조회
 router.get(
-  '/posts/:postId/my-comments',
+  '/posts/my-comments',
   authMiddleWare,
   commentMiddleWare.checkMyComment,
   async (req, res, next) => {
     try {
       const userId = req.user.id;
-      const { postId } = req.params;
 
       const myComments = await prisma.comments.findMany({
         where: {
-          postId: parseInt(postId),
           userId: parseInt(userId),
         },
         select: {
