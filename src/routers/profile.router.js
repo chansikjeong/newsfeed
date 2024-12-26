@@ -79,7 +79,7 @@ router.patch('/profile', authMiddleware, async (req, res, next) => {
       data: updatedData,
     });
 
-    return res.status(200).json({ message: '프로필이 수정되었습니다.' });
+    return res.status(201).json({ message: '프로필이 수정되었습니다.' });
   } catch (err) {
     next(err);
   }
