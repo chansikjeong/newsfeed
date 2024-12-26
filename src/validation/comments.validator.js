@@ -8,13 +8,13 @@ export async function checkAddComment(req, res, next) {
 
     // 해당 id의 글이 존재하는 지
     const postIdExist = await prisma.posts.findUnique({
-      where: { Id: +postId },
+      where: { id: +postId },
     });
-    if (!postIdExist) throw new Error(`해당 글이 존재하지 않습니다.`);
+    if (!postIdExist) throw new Error(`해당 게시글이 존재하지 않습니다.`);
     if (!content) throw new Error(`댓글 내용을 입력해 주세요.`);
 
     next();
-  } catch {
+  } catch (err){
     return res.status(400).json({ errormessage: err.message });
   }
 }
@@ -26,9 +26,14 @@ export async function checkLookUpComments(req, res, next) {
 
     // 해당 id의 글이 존재하는 지
     const postIdExist = await prisma.posts.findUnique({
-      where: { Id: +postId },
+      where: { id: +postId },
     });
-    if (!postIdExist) throw new Error(`해당 글이 존재하지 않습니다.`);
+    if (!postIdExist) throw new Error(`해당 게시글이 존재하지 않습니다.`);
+
+    const commentExist = await prisma.comments.findFirst({
+      where: { postId: +postId }
+    })
+    if(!commentExist) throw new Error(`해당 게시글에 댓글이 존재하지 않습니다.`)
 
     next();
   } catch (err) {
@@ -40,13 +45,13 @@ export async function checkLookUpComments(req, res, next) {
 export async function checkChangeComment(req, res, next) {
   try {
     const { postId, commentId } = req.params;
-    const { userId } = req.user;
+    const userId = req.user.id;
     const { content } = req.body;
 
     const postIdExist = await prisma.posts.findUnique({
-      where: { Id: +postId },
+      where: { id: +postId },
     });
-    if (!postIdExist) throw new Error(`해당 글이 존재하지 않습니다.`);
+    if (!postIdExist) throw new Error(`해당 게시글이 존재하지 않습니다.`);
 
     const commentIdExist = await prisma.comments.findUnique({
       where: { id: +commentId },
@@ -55,9 +60,61 @@ export async function checkChangeComment(req, res, next) {
       },
     });
     if (!commentIdExist) throw new Error(`해당 댓글이 존재하지 않습니다.`);
-    if (commentIdExist !== userId)
+    if (commentIdExist.userId !== +userId)
       throw new Error(`해당 댓글을 수정 할 권한이 없습니다`);
     if (!content) throw new Error(`수정할 댓글 내용을 입력해 주세요.`);
+
+    next();
+  } catch (err) {
+    return res.status(400).json({ errormessage: err.message });
+  }
+}
+
+// 댓글 삭제 검증
+export async function checkDeleteComment(req, res, next) {
+  try {
+    const { postId, commentId } = req.params;
+    const userId = req.user.id;
+
+    const postIdExist = await prisma.posts.findUnique({
+      where: { id: +postId },
+    });
+    if (!postIdExist) throw new Error(`해당 게시글이 존재하지 않습니다.`);
+
+    const commentIdExist = await prisma.comments.findUnique({
+      where: { id: +commentId },
+      select: {
+        userId: true,
+      },
+    });
+    if (!commentIdExist) throw new Error(`해당 댓글이 존재하지 않습니다.`);
+    if (commentIdExist.userId !== +userId)
+      throw new Error(`해당 댓글을 수정 할 권한이 없습니다`);
+
+    next();
+  } catch (err) {
+    return res.status(400).json({ errormessage: err.message });
+  }
+}
+
+// 내 댓글 조회 검증
+export async function checkMyComment(req, res, next) {
+  try {
+    const { postId } = req.params;
+    const userId = req.user.id;
+
+    const postIdExist = await prisma.posts.findUnique({
+      where: { id: +postId },
+    })
+    if (!postIdExist) throw new Error(`해당 게시글이 존재하지 않습니다.`)
+    
+    const commentExist = await prisma.comments.findFirst({
+      where: {
+        userId: +userId,
+        postId: +postId,
+      }
+    })
+    if (!commentExist) throw new Error(`해당 게시글에 내 댓글이 존재하지 않습니다.`)
 
     next();
   } catch (err) {
