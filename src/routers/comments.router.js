@@ -18,8 +18,8 @@ router.post(
 
       const addComment = await prisma.comments.create({
         data: {
-          postId: +postId,
-          userId: +userId,
+          postId: parseInt(postId),
+          userId: parseInt(userId),
           content,
         },
       });
@@ -42,7 +42,7 @@ router.get(
       const { postId } = req.params;
 
       const lookUpComment = await prisma.comments.findMany({
-        where: { postId: +postId },
+        where: { postId: parseInt(postId) },
         select: {
           userId: true,
           content: true,
@@ -67,7 +67,7 @@ router.patch(
       const { content } = req.body;
 
       const changeComment = await prisma.comments.update({
-        where: { id: +commentId },
+        where: { id: parseInt(commentId) },
         data: { content },
       });
       return res.status(201).json({
@@ -89,7 +89,7 @@ router.delete(
       const { commentId } = req.params;
 
       const deleteComment = await prisma.comments.delete({
-        where: { id: +commentId },
+        where: { id: parseInt(commentId) },
       });
       return res.status(201).json({
         message: '댓글을 삭제하였습니다.',
@@ -112,18 +112,18 @@ router.get(
 
       const myComments = await prisma.comments.findMany({
         where: {
-          postId: +postId,
-          userId: +userId
+          postId: parseInt(postId),
+          userId: parseInt(userId),
         },
         select: {
           userId: true,
           content: true,
           createdAt: true,
         },
-      })
+      });
       return res.status(200).json({
-        myComments
-      })
+        myComments,
+      });
     } catch (err) {
       next(err);
     }
