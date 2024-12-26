@@ -6,11 +6,10 @@ export default async function (req, res, next) {
     const token = req.cookies.token;
     if (!token) throw new Error('토큰이 존재하지 않습니다.');
     const decodedToken = jwt.verify(token, process.env.JWT_KEY);
-    console.log(decodedToken);
     const userId = decodedToken.userId;
 
     const user = await prisma.users.findFirst({
-      where: { id: +userId }, //+는 숫자형으로 주기 위해서
+      where: { id: parseInt(userId) }, //+는 숫자형으로 주기 위해서
     });
     if (!user) {
       throw new Error('토큰 사용자가 존재하지 않습니다.');
