@@ -28,6 +28,7 @@ router.get('/posts/mobile', async (req, res, next) => {
       orderBy: {
         createdAt: 'desc',
       },
+      take: 10,
     });
 
     if (mobilePosts.length === 0) {
