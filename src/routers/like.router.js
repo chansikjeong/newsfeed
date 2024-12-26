@@ -57,3 +57,5 @@ async function didYouLike(pId, uId) {
     },
   });
 }
+
+export default router;
