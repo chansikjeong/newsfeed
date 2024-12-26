@@ -80,15 +80,38 @@ router.post('/login', async (req, res, next) => {
 });
 
 //로그아웃 API
-router.post('/logout', authorization, (req, res) => {
+router.post('/logout', authorization, (req, res, next) => {
   try {
     // 쿠키에 저장된 JWT 토큰 삭제
     res.clearCookie('token');
 
     res.status(200).json({ message: '로그아웃 성공' });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: '로그아웃 실패' });
+  }
+});
+
+//회원삭제 API
+router.delete('/user-del', authorization, async (req, res, next) => {
+  const { password } = req.body;
+  const userId = parseInt(req.user.id);
+  try {
+    const user = await prisma.users.findUnique({
+      where: { id: userId },
+    });
+    if (!user) {
+      return res.status(404).json({ message: '유저가 존재하지 않습니다.' });
+    }
+    //패스워드 체크
+    if (!(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: '비밀번호가 틀렸습니다.' });
+    }
+    await prisma.users.delete({ where: { id: userId } });
+    return res.status(200).json({ message: '회원탈퇴를 완료했습니다.' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: '회원탈퇴에 실패하였습니다.' });
   }
 });
 
