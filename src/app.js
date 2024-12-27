@@ -8,13 +8,17 @@ import getPostRouter from './routers/getPosts.router.js';
 import postRouter from './routers/post.router.js';
 import likeRouter from './routers/like.router.js';
 import errorHandlermiddleware from './middlewares/errorHandler.js';
-
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const app = express();
 const PORT = 3000;
 
 dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', [
   userRouter,
