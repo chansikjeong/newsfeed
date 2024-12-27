@@ -147,4 +147,128 @@ router.get('/posts/console', async (req, res, next) => {
   }
 });
 
+router.get('/posts/pc/:search', async (req, res) => {
+  const searchWord = req.params.search;
+
+  try {
+    const posts = await prisma.posts.findMany({
+      where: {
+        type: 'pc',
+        OR: [
+          { title: { contains: searchWord } },
+          { content: { contains: searchWord } },
+        ],
+      },
+      select: {
+        title: true,
+        content: true,
+        createdAt: true,
+        type: true,
+        Users: {
+          select: {
+            nickname: true,
+          },
+        },
+        _count: {
+          select: {
+            Like: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    res.json(posts);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '게시물을 찾을 수 없습니다.' });
+  }
+});
+
+//console탭 검색 기능
+router.get('/posts/console/:search', async (req, res) => {
+  const searchWord = req.params.search;
+
+  try {
+    const posts = await prisma.posts.findMany({
+      where: {
+        type: 'console',
+        OR: [
+          { title: { contains: searchWord } },
+          { content: { contains: searchWord } },
+        ],
+      },
+      select: {
+        title: true,
+        content: true,
+        createdAt: true,
+        type: true,
+        Users: {
+          select: {
+            nickname: true,
+          },
+        },
+        _count: {
+          // _count를 Users와 같은 레벨로 이동
+          select: {
+            Like: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    res.json(posts);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '게시물을 찾을 수 없습니다.' });
+  }
+});
+
+//모바일 탭 검색 기능
+router.get('/posts/mobile/:search', async (req, res) => {
+  const searchWord = req.params.search;
+
+  try {
+    const posts = await prisma.posts.findMany({
+      where: {
+        type: 'mobile',
+        OR: [
+          { title: { contains: searchWord } },
+          { content: { contains: searchWord } },
+        ],
+      },
+      select: {
+        title: true,
+        content: true,
+        createdAt: true,
+        type: true,
+        Users: {
+          select: {
+            nickname: true,
+          },
+        },
+        //하트 합산해서 받아오기
+        _count: {
+          select: {
+            Like: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    res.json(posts);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '게시물을 찾을 수 없습니다.' });
+  }
+});
+
 export default router;
