@@ -29,7 +29,7 @@ router.patch('/api/posts/:postId', async (req, res) => {
   try {
     // 게시글이 존재하는지 확인
     const post = await prisma.posts.findUnique({
-      where: { id: +postId },
+      where: { email: +postId },
     });
 
     if (!post) {
@@ -38,7 +38,7 @@ router.patch('/api/posts/:postId', async (req, res) => {
 
     // 게시글 수정
     const updatedPost = await prisma.posts.update({
-      where: { id: +postId },
+      where: { email: +postId },
       data: { title, content },
     });
 
@@ -95,7 +95,7 @@ router.delete('/api/posts/:postId', async (req, res) => {
   try {
     // 게시글이 존재하는지 확인
     const post = await prisma.posts.findUnique({
-      where: { id: +postId },
+      where: { email: +postId },
     });
 
     if (!post) {
@@ -104,7 +104,7 @@ router.delete('/api/posts/:postId', async (req, res) => {
 
     // 게시글 삭제
     const deletedPost = await prisma.posts.delete({
-      where: { id: +postId },
+      where: { email: +postId },
     });
 
     return res
