@@ -7,6 +7,7 @@ import profileRouter from './routers/profile.router.js';
 import getPostRouter from './routers/getPosts.router.js';
 import postRouter from './routers/post.router.js';
 import likeRouter from './routers/like.router.js';
+import errorHandlermiddleware from './middlewares/errorHandler.js';
 
 const app = express();
 const PORT = 3000;
@@ -23,6 +24,7 @@ app.use('/api', [
   commentRouter,
   likeRouter,
 ]);
+app.use(errorHandlermiddleware);
 
 app.listen(PORT, () => {
   console.log(PORT, '포트로 서버가 열렸어요!');
