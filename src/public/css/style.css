@@ -1,0 +1,95 @@
+/* Pico CSS 커스터마이징 */
+:root {
+  --primary: #1095c1;
+  --primary-hover: #08769c;
+}
+
+/* 테마 스위처 스타일 */
+.theme-switcher {
+  text-align: right;
+  margin: 1rem 0;
+}
+
+.theme-switcher button {
+  width: auto;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  display: inline-block;
+}
+
+/* 기본 스타일 - Pico CSS 변수 사용 */
+body {
+  background-color: var(--pico-background-color);
+  color: var(--pico-color);
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: darkcyan;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.site-title {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* 텍스트 중앙 정렬 유틸리티 클래스 */
+.text-center {
+  text-align: center;
+}
+
+/* 네비게이션 컨테이너 */
+.nav-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+/* 네비게이션 스타일 */
+nav ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 1rem;
+}
+
+nav ul li {
+  margin: 0;
+}
+
+nav ul li a {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  color: whitesmoke;
+}
+
+nav a.active {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* 게시글 스타일 */
+article {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+}
+
+/* 페이지네이션 스타일 */
+#pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
