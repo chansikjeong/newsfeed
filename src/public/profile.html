@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <style>
+      .profile-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        margin: 20px auto;
+        display: block;
+        background-color: #444;
+        /* 이미지가 없을 때의 기본 배경색 */
+      }
+      .user-info {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .posts-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .post-card {
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <div class="user-info">
+        <div class="profile-image"></div>
+        <h2>사용자 닉네임</h2>
+        <p>user@email.com</p>
+      </div>
+
+      <div class="posts-container">
+        <h3>작성한 게시글</h3>
+
+        <article class="post-card">
+          <h4>게시글 제목 1</h4>
+          <p>게시글 내용의 일부분이 여기에 표시됩니다...</p>
+          <small>작성일: 2024-03-21</small>
+        </article>
+
+        <article class="post-card">
+          <h4>게시글 제목 2</h4>
+          <p>게시글 내용의 일부분이 여기에 표시됩니다...</p>
+          <small>작성일: 2024-03-20</small>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>
