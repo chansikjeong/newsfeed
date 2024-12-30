@@ -18,7 +18,7 @@ router.post('/api/posts', async (req, res) => {
     },
   });
 
-  return res.status(201).json({ data: post });
+  return res.status(201).json({ message: '게시물이 생성되었습니다' });
 });
 
 // 게시물 수정
