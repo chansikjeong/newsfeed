@@ -14,27 +14,27 @@ datasource db {
 }
 
 model Users {
-  id        Int     @id @default(autoincrement())
-  email     String  @unique
-  password  String
-  nickname  String
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  nickname String @unique
 
-  Like Like[]
+  Like     Like[]
   Comments Comments[]
-  Posts Posts[]
+  Posts    Posts[]
 }
 
 model Posts {
-  id        Int       @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   userId    Int
   title     String
   content   String
   createdAt DateTime @default(now())
   type      Type
-  
-  Like Like[]
+
+  Like     Like[]
   Comments Comments[]
-  Users Users @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Users    Users      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 enum Type {
@@ -44,22 +44,23 @@ enum Type {
 }
 
 model Comments {
-  id        Int       @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   postId    Int
   userId    Int
   content   String
   createdAt DateTime @default(now())
 
-  Posts Posts @relation(fields: [postId], references: [id],onDelete: Cascade, onUpdate: Cascade)
-  Users Users @relation(fields: [userId], references: [id],onDelete: Cascade, onUpdate: Cascade)
+  Posts Posts @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Users Users @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Like {
-  id        Int     @id @default(autoincrement())
-  postId    Int
-  userId    Int
+  id     Int @id @default(autoincrement())
+  postId Int
+  userId Int
 
-  Posts  Posts    @relation(fields: [postId], references: [id],onDelete: Cascade, onUpdate: Cascade)
-  Users  Users    @relation(fields: [userId], references: [id],onDelete: Cascade, onUpdate: Cascade)
+  Posts Posts @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Users Users @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   @@unique([postId, userId])
 }
