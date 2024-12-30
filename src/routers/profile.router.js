@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 const router = express.Router();
 
 //프로필 조회 API
-router.get('/profile', authMiddleware, async (req, res) => {
+router.get('/profile', authMiddleware, async (req, res, next) => {
   try {
     // 유저id를 인증 미들웨어에서 가져옵니다.
     const userId = parseInt(req.user.id);
@@ -79,7 +79,7 @@ router.patch('/profile', authMiddleware, async (req, res, next) => {
       data: updatedData,
     });
 
-    return res.status(200).json({ message: '프로필이 수정되었습니다.' });
+    return res.status(201).json({ message: '프로필이 수정되었습니다.' });
   } catch (err) {
     next(err);
   }
