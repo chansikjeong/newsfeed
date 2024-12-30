@@ -9,6 +9,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
+    <script>
+      function openModal() {
+        document.getElementById('editModal').style.display = 'block';
+        document.getElementById('newNickname').value =
+          document.getElementById('nickname').textContent;
+      }
+
+      function closeModal() {
+        document.getElementById('editModal').style.display = 'none';
+      }
+
+      function saveNickname() {
+        const newNickname = document.getElementById('newNickname').value;
+        document.getElementById('nickname').textContent = newNickname;
+        closeModal();
+        // 여기에 서버로 새로운 닉네임을 저장하는 API 호출 코드추가하면 되는건가?? 저장버튼에?
+      }
+    </script>
     <style>
       .profile-image {
         width: 200px;
@@ -24,6 +42,13 @@
         margin-bottom: 40px;
       }
 
+      .user-info h2 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
       .posts-container {
         max-width: 800px;
         margin: 0 auto;
@@ -34,6 +59,45 @@
         padding: 20px;
         border-radius: 8px;
         background-color: rgba(255, 255, 255, 0.1);
+        font-size: 0.9rem;
+      }
+
+      .post-card h4 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .post-card small {
+        font-size: 0.8rem;
+        color: #888;
+      }
+
+      .edit-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0 5px;
+        color: #666;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      .modal-content {
+        background-color: var(--background-color);
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 500px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       }
     </style>
   </head>
@@ -41,22 +105,35 @@
     <main class="container">
       <div class="user-info">
         <div class="profile-image"></div>
-        <h2>사용자 닉네임</h2>
+        <h2>
+          <span id="nickname">사용자 닉네임</span>
+          <button class="edit-button" onclick="openModal()">닉네임 변경</button>
+        </h2>
         <p>user@email.com</p>
       </div>
 
+      <!-- 닉네임 수정 모달 -->
+      <div id="editModal" class="modal">
+        <div class="modal-content">
+          <h3>닉네임 수정</h3>
+          <input type="text" id="newNickname" placeholder="새로운 닉네임" />
+          <button onclick="saveNickname()">저장</button>
+          <button onclick="closeModal()">취소</button>
+        </div>
+      </div>
+
       <div class="posts-container">
-        <h3>작성한 게시글</h3>
+        <h4>작성한 게시글</h4>
 
         <article class="post-card">
-          <h4>게시글 제목 1</h4>
-          <p>게시글 내용의 일부분이 여기에 표시됩니다...</p>
+          <h5>게시글 제목 1</h5>
+          <p>게시글 내용</p>
           <small>작성일: 2024-03-21</small>
         </article>
 
         <article class="post-card">
-          <h4>게시글 제목 2</h4>
-          <p>게시글 내용의 일부분이 여기에 표시됩니다...</p>
+          <h5>게시글 제목 2</h5>
+          <p>게시글 내용</p>
           <small>작성일: 2024-03-20</small>
         </article>
       </div>
