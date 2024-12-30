@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko" data-theme="dark">
   <head>
     <link
@@ -12,6 +12,19 @@
   <style>
     article header {
       text-align: center;
+    }
+    button[type='submit'] {
+      width: 120px;
+      margin-left: auto;
+      display: block;
+      background-color: #374956; /* 다크모드에 어울리는 색상 추가 */
+      border-color: #374956; /* 테두리 색상도 동일하게 설정 */
+    }
+
+    /* 호버 효과 추가 */
+    button[type='submit']:hover {
+      background-color: #2c3b47;
+      border-color: #2c3b47;
     }
   </style>
   <body>
@@ -27,6 +40,7 @@
             rows="15"
             required
           ></textarea>
+          <button type="submit">게시글추가</button>
         </form>
       </article>
     </main>
