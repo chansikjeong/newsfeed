@@ -15,10 +15,14 @@ logInSubmit.addEventListener("click", function(e) {
     })
   })
   .then((response) => {
-    console.log(response);
+    if(!response.ok) throw new Error('로그인에 실패하였습니다');
     return response.json()
   })
-  .then((result) => console.log(result))
+  .then((result) => {
+    console.log(result)
+    window.location.href = 'index.html';
+  })
+    
   .catch((err) => {
     console.log('에러: ', err);
   });
