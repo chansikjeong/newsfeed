@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>게임의 만족</title>
   </head>
+  <script src="js/post.js" defer></script>
   <style>
     article header {
       text-align: center;
@@ -34,13 +35,22 @@
           <h3>모바일</h3>
         </header>
         <form>
-          <input type="text" placeholder="제목을 입력하세요" required />
+          <input
+            id="title"
+            type="text"
+            placeholder="제목을 입력하세요"
+            required
+          />
           <textarea
+            id="content"
             placeholder="내용을 입력하세요"
             rows="15"
             required
           ></textarea>
-          <button type="submit">게시글추가</button>
+          <input type="radio" name="type" value="pc" />pc
+          <input type="radio" name="type" value="mobile" />mobile
+          <input type="radio" name="type" value="console" />console
+          <button class="postSubmit" type="submit">게시글추가</button>
         </form>
       </article>
     </main>
