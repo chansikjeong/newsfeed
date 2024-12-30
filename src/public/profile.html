@@ -9,24 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
-    <script>
-      function openModal() {
-        document.getElementById('editModal').style.display = 'block';
-        document.getElementById('newNickname').value =
-          document.getElementById('nickname').textContent;
-      }
-
-      function closeModal() {
-        document.getElementById('editModal').style.display = 'none';
-      }
-
-      function saveNickname() {
-        const newNickname = document.getElementById('newNickname').value;
-        document.getElementById('nickname').textContent = newNickname;
-        closeModal();
-        // 여기에 서버로 새로운 닉네임을 저장하는 API 호출 코드추가하면 되는건가?? 저장버튼에?
-      }
-    </script>
+    <script src="js/profile.js" defer></script>
     <style>
       .profile-image {
         width: 200px;
@@ -40,6 +23,10 @@
       .user-info {
         text-align: center;
         margin-bottom: 40px;
+      }
+
+      .nickname {
+        margin-left: 120px;
       }
 
       .user-info h2 {
@@ -106,36 +93,49 @@
       <div class="user-info">
         <div class="profile-image"></div>
         <h2>
-          <span id="nickname">사용자 닉네임</span>
-          <button class="edit-button" onclick="openModal()">닉네임 변경</button>
+          <span id="nickname"></span>
+          <button class="edit-button" onclick="openNicknameModal()">
+            닉네임 변경
+          </button>
         </h2>
-        <p>user@email.com</p>
+        <p id="email"></p>
+        <button class="edit-button" onclick="openPasswordModal()">
+          비밀번호 변경
+        </button>
       </div>
 
       <!-- 닉네임 수정 모달 -->
-      <div id="editModal" class="modal">
+      <div id="nicknameModal" class="modal">
         <div class="modal-content">
           <h3>닉네임 수정</h3>
           <input type="text" id="newNickname" placeholder="새로운 닉네임" />
           <button onclick="saveNickname()">저장</button>
-          <button onclick="closeModal()">취소</button>
+          <button onclick="closeNicknameModal()">취소</button>
+        </div>
+      </div>
+
+      <!-- 비밀번호 수정 모달 -->
+      <div id="passwordModal" class="modal">
+        <div class="modal-content">
+          <h3>비밀번호 수정</h3>
+          <input
+            type="password"
+            id="newPassword"
+            placeholder="새로운 비밀번호"
+          />
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="비밀번호 확인"
+          />
+          <button onclick="savePassword()">저장</button>
+          <button onclick="closePasswordModal()">취소</button>
         </div>
       </div>
 
       <div class="posts-container">
         <h4>작성한 게시글</h4>
-
-        <article class="post-card">
-          <h5>게시글 제목 1</h5>
-          <p>게시글 내용</p>
-          <small>작성일: 2024-03-21</small>
-        </article>
-
-        <article class="post-card">
-          <h5>게시글 제목 2</h5>
-          <p>게시글 내용</p>
-          <small>작성일: 2024-03-20</small>
-        </article>
+        <div id="userPosts"></div>
       </div>
     </main>
   </body>
