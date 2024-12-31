@@ -80,7 +80,7 @@ function getUserPosts() {
       }
       // 게시글 HTML 만들기
       let postList = '';
-      posts.forEach((post) => {
+      posts.data.forEach((post) => {
         postList += `
           <article class="post-card">
             <h5>${post.title}</h5>
