@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 네비게이션 클릭 이벤트 설정
   setupNavigation();
   // 초기 모바일 게시글 로드
-  loadPosts('mobile', 1);
+  loadPosts(currentType, currentPage);
 
   const savedTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
