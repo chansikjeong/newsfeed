@@ -74,12 +74,24 @@ router.get('/posts', authorization, async (req, res) => {
         userId: userId, // 현재 로그인한 사용자의 ID로 게시물 조회
       },
       select: {
-        id: true,
-        userId: true,
         title: true,
-        content: true,
         createdAt: true,
+        content: true,
         type: true,
+        Users: {
+          select: {
+            nickname: true,
+          },
+        },
+        _count: {
+          // _count를 Users와 같은 레벨로 이동
+          select: {
+            Like: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
 
