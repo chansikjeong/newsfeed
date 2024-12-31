@@ -1,60 +1,18 @@
-<!-- <!doctype html>
-<html lang="en" data-theme="dark">
+<!doctype html>
+<html lang="ko" data-theme="light">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게임의 민족</title>
+
+    <!-- Pico CSS -->
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
     />
 
-    <style>
-      /* 텍스트 중앙 정렬 유틸리티 클래스 */
-      .text-center {
-        text-align: center;
-      }
-
-      .text-end {
-        text-align: end;
-      }
-
-      /* 네비게이션 컨테이너 */
-      .nav-container {
-        display: flex;
-        justify-content: center;
-        margin: 2rem 0;
-      }
-
-      /* 네비게이션 스타일 */
-      nav ul {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        gap: 1rem;
-      }
-
-      nav ul li {
-        margin: 0;
-      }
-
-      nav ul li a {
-        text-decoration: none;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        color: whitesmoke;
-      }
-
-      nav a.active {
-        background-color: var(--primary);
-        color: white;
-      }
-    </style>
-
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>main</title>
+    <!-- 커스텀 CSS -->
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <script src="js/main.js" defer></script>
   <body>
@@ -75,13 +33,26 @@
           </nav>
         </div>
       </header>
-      <section id="posts-container">
-        
-      </section>
+      <section id="posts-container"></section>
       <a href="mobile.html"><button>게시글 작성</button></a>
+
+      <!-- 테마 토글 버튼 추가 -->
+      <div class="theme-switcher">
+        <button onclick="toggleTheme()">테마 변경</button>
+      </div>
+
+      <section id="posts-container">
+        <!-- 게시글이 여기에 표시됩니다 -->
+      </section>
+
+      <nav id="pagination" aria-label="Pagination">
+        <!-- 페이지네이션이 여기에 표시됩니다 -->
+      </nav>
     </main>
+
+    <script src="js/main.js" defer></script>
   </body>
-</html> -->
+</html>
 
 <!doctype html>
 <html lang="ko" data-theme="light">
