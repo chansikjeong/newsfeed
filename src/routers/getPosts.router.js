@@ -9,7 +9,6 @@ router.get('/posts/mobile', async (req, res, next) => {
       where: { type: 'mobile' },
       select: {
         title: true,
-        content: true,
         createdAt: true,
         type: true,
         Users: {
@@ -37,7 +36,6 @@ router.get('/posts/mobile', async (req, res, next) => {
 
     const formattedPosts = mobilePosts.map((post) => ({
       title: post.title,
-      content: post.content,
       createdAt: post.createdAt,
       nickname: post.Users.nickname,
       type: post.type,
@@ -58,7 +56,6 @@ router.get('/posts/pc', async (req, res, next) => {
       where: { type: 'pc' },
       select: {
         title: true,
-        content: true,
         createdAt: true,
         type: true,
         Users: {
@@ -84,7 +81,6 @@ router.get('/posts/pc', async (req, res, next) => {
 
     const formattedPosts = pcPosts.map((post) => ({
       title: post.title,
-      content: post.content,
       createdAt: post.createdAt,
       nickname: post.Users.nickname,
       type: post.type,
@@ -106,7 +102,6 @@ router.get('/posts/console', async (req, res, next) => {
       where: { type: 'console' },
       select: {
         title: true,
-        content: true,
         createdAt: true,
         type: true,
         Users: {
@@ -132,7 +127,6 @@ router.get('/posts/console', async (req, res, next) => {
 
     const formattedPosts = consolePosts.map((post) => ({
       title: post.title,
-      content: post.content,
       createdAt: post.createdAt,
       nickname: post.Users.nickname,
       type: post.type,
@@ -144,6 +138,52 @@ router.get('/posts/console', async (req, res, next) => {
       .json({ message: '게시글 조회가 완료되었습니다.', data: formattedPosts });
   } catch (err) {
     next(err);
+  }
+});
+
+// 게시글 클릭시 나오는 게시글 상세내용
+router.get('/posts/:postId', async (req, res, next) => {
+  const postId = req.params.postId;
+
+  try {
+    const post = await prisma.posts.findFirst({
+      where: {
+        id: parseInt(postId),
+      },
+      select: {
+        title: true,
+        content: true,
+        createdAt: true,
+        type: true,
+        Users: {
+          select: {
+            nickname: true,
+          },
+        },
+        _count: {
+          select: {
+            Like: true,
+          },
+        },
+      },
+    });
+
+    if (!post) {
+      return res.status(404).json({ message: '게시글이 존재하지 않습니다.' });
+    }
+    const formattedPosts = {
+      title: post.title,
+      content: post.content,
+      createdAt: post.createdAt,
+      nickname: post.Users.nickname,
+      type: post.type,
+      likes: post._count.Like,
+    };
+
+    return res.status(200).json({ data: formattedPosts });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '게시물을 찾을 수 없습니다.' });
   }
 });
 
@@ -161,7 +201,6 @@ router.get('/posts/pc/:search', async (req, res) => {
       },
       select: {
         title: true,
-        content: true,
         createdAt: true,
         type: true,
         Users: {
@@ -202,7 +241,6 @@ router.get('/posts/console/:search', async (req, res) => {
       },
       select: {
         title: true,
-        content: true,
         createdAt: true,
         type: true,
         Users: {
@@ -244,7 +282,6 @@ router.get('/posts/mobile/:search', async (req, res) => {
       },
       select: {
         title: true,
-        content: true,
         createdAt: true,
         type: true,
         Users: {
