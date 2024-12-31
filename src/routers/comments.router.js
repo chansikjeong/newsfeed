@@ -35,7 +35,7 @@ router.post(
 // 댓글 조회
 router.get(
   '/posts/:postId/comments',
-  authMiddleWare,
+  // authMiddleWare,
   commentMiddleWare.checkLookUpComments,
   async (req, res, next) => {
     try {
@@ -47,6 +47,11 @@ router.get(
           userId: true,
           content: true,
           createdAt: true,
+          Users: {
+            select: {
+              nickname: true,
+            },
+          },
         },
       });
       return res.status(200).json({ lookUpComment });
