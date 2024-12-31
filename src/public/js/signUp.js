@@ -10,7 +10,6 @@ const verificationCode = document.querySelector('#verificationCode');
 
 signUpSubmit.addEventListener('click', function (e) {
   e.preventDefault();
-  modal.style.display = 'block';
   fetch('/api/signUp', {
     method: 'POST',
     headers: {
@@ -24,14 +23,18 @@ signUpSubmit.addEventListener('click', function (e) {
     }),
   })
     .then((response) => {
-      console.log(response);
+      if (!response.ok) {
+        alert('회원가입에 실패했습니다');
+        throw new Error('회원가입에 실패했습니다');
+      }
       return response.json();
     })
     .then((result) => {
+      modal.style.display = 'block';
       console.log(result);
     })
     .catch((err) => {
-      alert('중복된 값이 있습니다');
+      alert('중복된 아이디와 이름의 유저가 있습니다');
       console.log('에러', err);
     });
 });
@@ -48,7 +51,22 @@ verifyEmail.addEventListener('click', (e) => {
       email: verficationEmail.value,
       verificationCode: verificationCode.value,
     }),
-  });
-  //추후에 로긴으로 이동?
-  window.location.href = 'index.html';
+  })
+    .then((response) => {
+      if (!response.ok) {
+        alert('인증에 실패했습니다');
+        throw new Error('인증에 실패했습니다');
+      }
+      return response.json();
+    })
+    .then((result) => {
+      alert('인증에 성공했습니다');
+      modal.style.display = 'block';
+      console.log(result);
+      //추후에 로긴으로 이동?
+      window.location.href = 'login.html';
+    })
+    .catch((err) => {
+      console.log('에러', err);
+    });
 });
