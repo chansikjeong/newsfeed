@@ -1,3 +1,5 @@
+//const { response } = require('express');
+
 // 현재 페이지와 타입을 관리하는 변수
 let currentPage = 1;
 let currentType = 'mobile';
@@ -8,6 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
   setupNavigation();
   // 초기 모바일 게시글 로드
   loadPosts(currentType, currentPage);
+
+  // if (response.credential) {
+  //   displayBtnWhenLogin();
+  // } else displayBtnWhenLogout();
 
   const savedTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
@@ -110,4 +116,14 @@ function toggleTheme() {
     html.setAttribute('data-theme', 'light');
     localStorage.setItem('theme', 'light');
   }
+}
+
+function displayBtnWhenLogout() {
+  document.querySelectorAll('.li-login').style.display = 'none';
+  document.querySelectorAll('.li-logout').style.display = 'block';
+}
+
+function displayBtnWhenLogin() {
+  document.querySelectorAll('.li-logout').style.display = 'none';
+  document.querySelectorAll('.li-login').style.display = 'block';
 }
