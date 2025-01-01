@@ -17,6 +17,15 @@ function closePasswordModal() {
   document.getElementById('confirmPassword').value = '';
 }
 
+function openMediaModal() {
+  document.getElementById('mediaModal').style.display = 'block';
+}
+
+function closeMediaModal() {
+  document.getElementById('mediaModal').style.display = 'none';
+  document.getElementById('media').value = '';
+}
+
 // 닉네임 변경
 function saveNickname() {
   const newNickname = document.getElementById('newNickname').value;
@@ -59,6 +68,26 @@ function savePassword() {
       }
       closePasswordModal();
       alert('비밀번호가 변경되었습니다.');
+    })
+    .catch((err) => alert(err.message));
+}
+// 프로필 사진 변경
+function saveMedia() {
+  const formData = new FormData();
+  formData.append('media', media.files[0]);
+
+  fetch('/api/profile', {
+    method: 'PATCH',
+    credentials: 'include',
+    body: formData,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('프로필 변경에 실패했습니다.');
+      }
+      closeMediaModal();
+      alert('프로필 사진이 변경되었습니다.');
+      location.reload(); //새로고침
     })
     .catch((err) => alert(err.message));
 }
@@ -109,6 +138,7 @@ function getUserProfile() {
     .then((res) => {
       document.getElementById('nickname').textContent = res.data.nickname;
       document.getElementById('email').textContent = res.data.email;
+      document.getElementById('image').src = res.data.media || '';
     })
     .catch((err) => alert('프로필 정보를 불러오는데 실패했습니다.', err));
 }
