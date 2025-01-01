@@ -8,6 +8,7 @@ router.get('/posts/mobile', async (req, res, next) => {
     const mobilePosts = await prisma.posts.findMany({
       where: { type: 'mobile' },
       select: {
+        id: true,
         title: true,
         createdAt: true,
         type: true,
@@ -35,6 +36,7 @@ router.get('/posts/mobile', async (req, res, next) => {
     }
 
     const formattedPosts = mobilePosts.map((post) => ({
+      id: post.id,
       title: post.title,
       createdAt: post.createdAt,
       nickname: post.Users.nickname,
@@ -55,6 +57,7 @@ router.get('/posts/pc', async (req, res, next) => {
     const pcPosts = await prisma.posts.findMany({
       where: { type: 'pc' },
       select: {
+        id: true,
         title: true,
         createdAt: true,
         type: true,
@@ -80,6 +83,7 @@ router.get('/posts/pc', async (req, res, next) => {
     }
 
     const formattedPosts = pcPosts.map((post) => ({
+      id: post.id,
       title: post.title,
       createdAt: post.createdAt,
       nickname: post.Users.nickname,
@@ -101,6 +105,7 @@ router.get('/posts/console', async (req, res, next) => {
     const consolePosts = await prisma.posts.findMany({
       where: { type: 'console' },
       select: {
+        id: true,
         title: true,
         createdAt: true,
         type: true,
@@ -126,6 +131,7 @@ router.get('/posts/console', async (req, res, next) => {
     }
 
     const formattedPosts = consolePosts.map((post) => ({
+      id: post.id,
       title: post.title,
       createdAt: post.createdAt,
       nickname: post.Users.nickname,
