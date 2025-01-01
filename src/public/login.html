@@ -9,8 +9,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
+    <style>
+      #naverIdLogin {
+        width: 200px; /* 원하는 너비 */
+        height: 40px; /* 원하는 높이 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto; /* 중앙 정렬 */
+      }
+    
+      .naver-button {
+        width: 100%; /* 버튼을 부모 요소의 너비에 맞춤 */
+        height: 100%; /* 버튼을 부모 요소의 높이에 맞춤 */
+      }
+    </style>
   </head>
   <script src="js/login.js" defer></script>
+  <script
+    src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"
+    charset="utf-8"
+  ></script>
   <body>
     <br />
     <main class="container">
@@ -41,6 +60,9 @@
 
         <button type="logInSubmit" class="logInSubmit">Login</button>
       </form>
+      <div id="button_area">
+        <div id="naverIdLogin"></div>
+      </div>
       <br />
       <p>Don't have an account? <a href="signup.html">Sign up</a></p>
     </main>

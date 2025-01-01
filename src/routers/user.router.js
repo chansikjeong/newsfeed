@@ -194,4 +194,52 @@ router.delete('/user-del', authorization, async (req, res, next) => {
   }
 });
 
+router.post('/socialLogin', async (req, res) => {
+  try {
+    const { email, nickname } = req.body;
+
+    const emailExist = await prisma.users.findUnique({
+      where: { email: email },
+    });
+
+    const password = Math.random() * 100 + email + Math.random() * 100
+
+    //비밀번호 해쉬
+    const hashedPassword = await bcrypt.hash(
+      password,
+      parseInt(process.env.SALTNUM),
+    );
+
+    if (!emailExist) {
+      // 존재하지 않으면 계정 생성
+      // 소셜 로그인 시 패스워드 안 불러옴
+      await prisma.users.create({
+        data: {
+          email: email,
+          password: hashedPassword, // 일단 보안생각안하고 제작
+          nickname: nickname,
+          emailVerify: true,
+          verificationCode: null,
+        },
+      });
+    }
+
+    const user = await prisma.users.findUnique({
+      where: { email: email },
+    });
+
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_KEY, {
+      expiresIn: '1d',
+    });
+
+    res.cookie('token', token, {
+      maxAge: 1000 * 60 * 60 * 24,
+    });
+
+    return res.status(200).json({ message: '로그인 하였습니다.' });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;
