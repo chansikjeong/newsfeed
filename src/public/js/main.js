@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
   //   displayBtnWhenLogin();
   // } else displayBtnWhenLogout();
 
+  displayBtnWhenLogin();
+
   const savedTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
 });
@@ -60,6 +62,7 @@ function displayPosts(posts) {
   container.innerHTML = posts
     .map(
       (post) => `
+      <a href="postget.html?id=${post.id}">
         <article class="post">
             <h2>${post.title}</h2>
             <div class="meta">
@@ -67,6 +70,7 @@ function displayPosts(posts) {
                 <span>좋아요: ${post.likes}</span>
             </div>
         </article>
+      </a>
     `,
     )
     .join('');

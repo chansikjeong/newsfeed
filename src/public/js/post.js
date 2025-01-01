@@ -28,7 +28,11 @@ postSubmit.addEventListener('click', function (e) {
       console.log(response);
       return response.json();
     })
-    .then((result) => console.log('요청성공', result))
+    .then((result) => {
+      alert('게시글 작성 완료');
+      console.log('요청성공', result);
+      window.location.href = 'index.html';
+    })
     .catch((err) => {
       console.log('에러 발생', err);
     });
