@@ -91,7 +91,14 @@
   <body>
     <main class="container">
       <div class="user-info">
-        <div class="profile-image"></div>
+        <img
+          class="profile-image"
+          id="image"
+          onclick="openMediaModal()"
+          src=""
+          alt="이미지 설명"
+        />
+
         <h2>
           <span id="nickname"></span>
           <button class="edit-button" onclick="openNicknameModal()">
@@ -130,6 +137,15 @@
           />
           <button onclick="savePassword()">저장</button>
           <button onclick="closePasswordModal()">취소</button>
+        </div>
+      </div>
+      <!-- 프로필 사진 수정 모달 -->
+      <div id="mediaModal" class="modal">
+        <div class="modal-content">
+          <h3>프로필 사진 수정</h3>
+          <input type="file" id="media" name="media" accept="image/*" />
+          <button onclick="saveMedia()">저장</button>
+          <button onclick="closeMediaModal()">취소</button>
         </div>
       </div>
 

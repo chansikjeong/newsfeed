@@ -1,33 +1,41 @@
 import express from 'express';
 import { prisma } from '../utils/prisma/index.js';
 import authorization from '../middlewares/authorization.js';
+import uploader from '../middlewares/s3upload.js';
 
 const router = express.Router();
 
-//검증로직 개선?
 /** 게시글 생성 API **/
-router.post('/posts', authorization, async (req, res, next) => {
-  const userId = parseInt(req.user.id);
-  const { title, content, type } = req.body;
-  const now = Date.now();
-  const koreaTimeDiff = 9 * 60 * 60 * 1000;
-  const koreaNow = now + koreaTimeDiff;
-  try {
-    const post = await prisma.posts.create({
-      data: {
-        userId: userId,
-        title: title,
-        content: content,
-        createdAt: new Date(koreaNow),
-        type: type,
-      },
-    });
+router.post(
+  '/posts',
+  authorization,
+  uploader.single('media'), //멀터 미들웨어
+  async (req, res, next) => {
+    const userId = parseInt(req.user.id);
+    const { title, content, type } = req.body;
+    const now = Date.now();
+    const koreaTimeDiff = 9 * 60 * 60 * 1000;
+    const koreaNow = now + koreaTimeDiff;
+    const mediaUrl = req.file ? req.file.location : null;
 
-    return res.status(201).json({ data: post });
-  } catch (err) {
-    return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
-  }
-});
+    try {
+      const post = await prisma.posts.create({
+        data: {
+          userId: userId,
+          title: title,
+          content: content,
+          createdAt: new Date(koreaNow),
+          type: type,
+          media: mediaUrl,
+        },
+      });
+
+      return res.status(201).json({ data: post });
+    } catch (err) {
+      return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
+    }
+  },
+);
 
 // 게시물 수정
 router.patch('/posts/:postId', authorization, async (req, res, next) => {
