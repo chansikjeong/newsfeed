@@ -151,6 +151,7 @@ router.get('/posts/:postId', async (req, res, next) => {
         id: parseInt(postId),
       },
       select: {
+        id: true,
         title: true,
         content: true,
         createdAt: true,
