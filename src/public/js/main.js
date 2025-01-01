@@ -1,3 +1,5 @@
+//const { response } = require('express');
+
 // 현재 페이지와 타입을 관리하는 변수
 let currentPage = 1;
 let currentType = 'mobile';
@@ -7,7 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 네비게이션 클릭 이벤트 설정
   setupNavigation();
   // 초기 모바일 게시글 로드
-  loadPosts('mobile', 1);
+  loadPosts(currentType, currentPage);
+
+  // if (response.credential) {
+  //   displayBtnWhenLogin();
+  // } else displayBtnWhenLogout();
 
   const savedTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
@@ -23,20 +29,17 @@ function setupNavigation() {
       currentType = type;
       currentPage = 1;
       loadPosts(type, currentPage);
-
       // 활성 링크 스타일 변경
       navLinks.forEach((link) => link.classList.remove('active'));
       e.target.classList.add('active');
     });
   });
 }
-
 // 게시글 로드 함수
 async function loadPosts(type, page) {
   try {
     const response = await fetch(`/api/posts/${type}?page=${page}`);
     const data = await response.json();
-
     if (data.data) {
       displayPosts(data.data);
       displayPagination(data.pageInfo);
@@ -54,7 +57,6 @@ function displayPosts(posts) {
     container.innerHTML = '<p>게시글이 없습니다.</p>';
     return;
   }
-
   container.innerHTML = posts
     .map(
       (post) => `
@@ -69,7 +71,6 @@ function displayPosts(posts) {
     )
     .join('');
 }
-
 // 페이지네이션 표시 함수
 function displayPagination(pageInfo) {
   const pagination = document.querySelector('#pagination');
@@ -91,7 +92,6 @@ function displayPagination(pageInfo) {
             >${i}</button>
         `;
   }
-
   // 다음 페이지 버튼
   if (currentPage < totalPages) {
     paginationHTML += `<button onclick="changePage(${currentPage + 1})">다음</button>`;
@@ -105,12 +105,10 @@ function changePage(page) {
   currentPage = page;
   loadPosts(currentType, page);
 }
-
 // 테마 토글 함수 추가
 function toggleTheme() {
   const html = document.documentElement;
   const currentTheme = html.getAttribute('data-theme');
-
   if (currentTheme === 'light') {
     html.setAttribute('data-theme', 'dark');
     localStorage.setItem('theme', 'dark');
@@ -118,4 +116,14 @@ function toggleTheme() {
     html.setAttribute('data-theme', 'light');
     localStorage.setItem('theme', 'light');
   }
+}
+
+function displayBtnWhenLogout() {
+  document.querySelectorAll('.li-login').style.display = 'none';
+  document.querySelectorAll('.li-logout').style.display = 'block';
+}
+
+function displayBtnWhenLogin() {
+  document.querySelectorAll('.li-logout').style.display = 'none';
+  document.querySelectorAll('.li-login').style.display = 'block';
 }
