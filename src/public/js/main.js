@@ -42,7 +42,6 @@ async function loadPosts(type, page) {
   try {
     const response = await fetch(`/api/posts/${type}?page=${page}`);
     const data = await response.json();
-    console.log(data.data);
     if (data.data) {
       displayPosts(data.data);
       displayPagination(data.pageInfo);
