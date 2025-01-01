@@ -194,7 +194,7 @@ router.delete('/user-del', authorization, async (req, res, next) => {
   }
 });
 
-router.post('/socialLogin', async (req, res) => {
+router.post('/socialLogin', async (req, res, next) => {
   try {
     const { email, nickname } = req.body;
 
@@ -202,7 +202,7 @@ router.post('/socialLogin', async (req, res) => {
       where: { email: email },
     });
 
-    const password = Math.random() * 100 + email + Math.random() * 100
+    const password = Math.random() * 100 + email + Math.random() * 100;
 
     //비밀번호 해쉬
     const hashedPassword = await bcrypt.hash(
