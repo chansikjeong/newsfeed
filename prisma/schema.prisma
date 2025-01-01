@@ -20,6 +20,8 @@ model Users {
   nickname String @unique
   emailVerify Boolean @default(false)
   verificationCode String?
+  media     String?
+
 
   Like     Like[]
   Comments Comments[]
@@ -33,6 +35,7 @@ model Posts {
   content   String
   createdAt DateTime @default(now())
   type      Type
+  media     String?
 
   Like     Like[]
   Comments Comments[]
