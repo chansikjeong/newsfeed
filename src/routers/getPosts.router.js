@@ -11,6 +11,7 @@ router.get('/posts/mobile', async (req, res, next) => {
         title: true,
         createdAt: true,
         type: true,
+        media: true,
         Users: {
           select: {
             nickname: true,
@@ -39,6 +40,7 @@ router.get('/posts/mobile', async (req, res, next) => {
       createdAt: post.createdAt,
       nickname: post.Users.nickname,
       type: post.type,
+      media: post.media,
       likes: post._count.Like,
     }));
 
@@ -58,6 +60,7 @@ router.get('/posts/pc', async (req, res, next) => {
         title: true,
         createdAt: true,
         type: true,
+        media: true,
         Users: {
           select: {
             nickname: true,
@@ -84,6 +87,7 @@ router.get('/posts/pc', async (req, res, next) => {
       createdAt: post.createdAt,
       nickname: post.Users.nickname,
       type: post.type,
+      media: post.media,
       likes: post._count.Like,
     }));
 
@@ -104,6 +108,7 @@ router.get('/posts/console', async (req, res, next) => {
         title: true,
         createdAt: true,
         type: true,
+        media: true,
         Users: {
           select: {
             nickname: true,
@@ -130,6 +135,7 @@ router.get('/posts/console', async (req, res, next) => {
       createdAt: post.createdAt,
       nickname: post.Users.nickname,
       type: post.type,
+      media: post.media,
       likes: post._count.Like,
     }));
 
@@ -155,6 +161,7 @@ router.get('/posts/:postId', async (req, res, next) => {
         content: true,
         createdAt: true,
         type: true,
+        media: true,
         Users: {
           select: {
             nickname: true,
@@ -178,6 +185,7 @@ router.get('/posts/:postId', async (req, res, next) => {
       nickname: post.Users.nickname,
       type: post.type,
       likes: post._count.Like,
+      media: post.media,
     };
 
     return res.status(200).json({ data: formattedPosts });

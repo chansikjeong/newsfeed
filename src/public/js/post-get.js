@@ -5,8 +5,8 @@ fetch(`/api/posts/${postId}`, {
   method: 'GET', // HTTP 메서드 지정
   headers: {
     'Content-Type': 'application/json', // JSON 형식으로 데이터를 주고받음
-    credentials: 'include', // 쿠키 포함 설정 (인증 정보 전송 위함)
   },
+  credentials: 'include', // 쿠키 포함 설정 (인증 정보 전송 위함)
 })
   // 서버 응답을 처리하는 첫 번째 then
   .then((response) => {
@@ -22,7 +22,8 @@ fetch(`/api/posts/${postId}`, {
     document.querySelector('#title').value = data.data.title || '';
     document.querySelector('#content').value = data.data.content || '';
     // document.querySelector('#comment').value = data.data.comment || '';
-
+    //이미지 처리 로직
+    document.getElementById('image').src = data.data.media || '';
     // author와 createdAt은 span 태그 내부 텍스트로 설정
     document.querySelector('#author').textContent = data.data.nickname || '';
     document.querySelector('#createdAt').textContent =
