@@ -13,7 +13,6 @@ export const uploader = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.AWS_BUCKET, // S3 버킷 이름
-    acl: 'public-read',
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: (req, file, callback) => {
       // 파일 이름 설정
