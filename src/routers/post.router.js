@@ -1,7 +1,7 @@
 import express from 'express';
 import { prisma } from '../utils/prisma/index.js';
 import authorization from '../middlewares/authorization.js';
-import uploader from '../middlewares/s3upload.js';
+import uploader from '../middlewares/s3upload.js'; // 1
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const router = express.Router();
 router.post(
   '/posts',
   authorization,
-  uploader.single('media'), //멀터 미들웨어
+  uploader.single('media'), //멀터 미들웨어 // 2
   async (req, res, next) => {
     const userId = parseInt(req.user.id);
     const { title, content, type } = req.body;
