@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <script src="js/profile.js" defer></script>
+    <style>
+      .profile-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        margin: 20px auto;
+        display: block;
+        background-color: #444;
+        /* 이미지가 없을 때의 기본 배경색 */
+      }
+      .user-info {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .nickname {
+        margin-left: 120px;
+      }
+
+      .user-info h2 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .posts-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .post-card {
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.1);
+        font-size: 0.9rem;
+      }
+
+      .post-card h4 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .post-card small {
+        font-size: 0.8rem;
+        color: #888;
+      }
+
+      .edit-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0 5px;
+        color: #666;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      .modal-content {
+        background-color: var(--background-color);
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 500px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <div class="user-info">
+        <img
+          class="profile-image"
+          id="image"
+          onclick="openMediaModal()"
+          src=""
+          alt="이미지 설명"
+        />
+
+        <h2>
+          <span id="nickname"></span>
+          <button class="edit-button" onclick="openNicknameModal()">
+            닉네임 변경
+          </button>
+        </h2>
+        <p id="email"></p>
+        <button class="edit-button" onclick="openPasswordModal()">
+          비밀번호 변경
+        </button>
+      </div>
+
+      <!-- 닉네임 수정 모달 -->
+      <div id="nicknameModal" class="modal">
+        <div class="modal-content">
+          <h3>닉네임 수정</h3>
+          <input type="text" id="newNickname" placeholder="새로운 닉네임" />
+          <button onclick="saveNickname()">저장</button>
+          <button onclick="closeNicknameModal()">취소</button>
+        </div>
+      </div>
+
+      <!-- 비밀번호 수정 모달 -->
+      <div id="passwordModal" class="modal">
+        <div class="modal-content">
+          <h3>비밀번호 수정</h3>
+          <input
+            type="password"
+            id="newPassword"
+            placeholder="새로운 비밀번호"
+          />
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="비밀번호 확인"
+          />
+          <button onclick="savePassword()">저장</button>
+          <button onclick="closePasswordModal()">취소</button>
+        </div>
+      </div>
+      <!-- 프로필 사진 수정 모달 -->
+      <div id="mediaModal" class="modal">
+        <div class="modal-content">
+          <h3>프로필 사진 수정</h3>
+          <input type="file" id="media" name="media" accept="image/*" />
+          <button onclick="saveMedia()">저장</button>
+          <button onclick="closeMediaModal()">취소</button>
+        </div>
+      </div>
+
+      <div class="posts-container">
+        <h4>작성한 게시글</h4>
+        <div id="userPosts"></div>
+      </div>
+    </main>
+  </body>
+</html>

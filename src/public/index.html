@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게임의 민족</title>
+
+    <!-- Pico CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
+    />
+
+    <!-- 커스텀 CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <script src="js/main.js" defer></script>
+  <body>
+    <main class="container">
+      <header class="text-center">
+        <h1>게임의 민족</h1>
+        <div class="nav-container">
+          <nav>
+            <ul>
+              <li><a href="#" data-type="mobile" class="active">모바일</a></li>
+              <li><a href="#" data-type="pc">PC</a></li>
+              <li><a href="#" data-type="console">콘솔</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      <!-- 스타일 none -->
+      <ul>
+        <li>
+          <a href="login.html"><button class="li-logout">로그인</button></a>
+        </li>
+        <li>
+          <a href="signUp.html"><button class="li-logout">회원가입</button></a>
+        </li>
+        <li>
+          <a href="index.html"><button class="li-login">로그아웃</button></a>
+        </li>
+        <li>
+          <a href="profile.html"><button class="li-login">회원정보</button></a>
+        </li>
+      </ul>
+
+      <section id="posts-container"></section>
+
+      <a href="postcreate.html"
+        ><button class="li-login">게시글 작성</button></a
+      >
+
+      <!-- 테마 토글 버튼 추가 -->
+      <div class="theme-switcher">
+        <button onclick="toggleTheme()">테마 변경</button>
+      </div>
+
+      <section id="posts-container">
+        <!-- 게시글이 여기에 표시됩니다 -->
+      </section>
+
+      <nav id="pagination" aria-label="Pagination">
+        <!-- 페이지네이션이 여기에 표시됩니다 -->
+      </nav>
+    </main>
+
+    <script src="js/main.js" defer></script>
+  </body>
+</html>
